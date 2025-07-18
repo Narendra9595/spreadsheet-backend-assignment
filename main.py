@@ -13,7 +13,7 @@ def get_db():
     finally:
         db.close()
 
-# ✅ Milestone 1: Dependents
+# Milestone 1: Dependents
 @app.get("/spreadsheets/{spreadsheet_id}/cells/{cell_id}/dependents")
 def get_dependents(spreadsheet_id: int, cell_id: str, db: Session = Depends(get_db)):
     dependents = db.query(CellDependency.cell_id).filter(
@@ -22,7 +22,7 @@ def get_dependents(spreadsheet_id: int, cell_id: str, db: Session = Depends(get_
     ).all()
     return [d.cell_id for d in dependents]
 
-# ✅ Milestone 2: Precedents
+# Milestone 2: Precedents
 @app.get("/spreadsheets/{spreadsheet_id}/cells/{cell_id}/precedents")
 def get_precedents(spreadsheet_id: int, cell_id: str, db: Session = Depends(get_db)):
     precedents = db.query(CellDependency.depends_on_cell_id).filter(
@@ -31,7 +31,7 @@ def get_precedents(spreadsheet_id: int, cell_id: str, db: Session = Depends(get_
     ).all()
     return [p.depends_on_cell_id for p in precedents]
 
-# ✅ Milestone 3: Recalculation Order
+# Milestone 3: Recalculation Order
 @app.get("/spreadsheets/{spreadsheet_id}/recalculate-order")
 def get_recalc_order(spreadsheet_id: int, changed_cell_id: str, db: Session = Depends(get_db)):
     dependencies = db.query(CellDependency).filter(
